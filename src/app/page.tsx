@@ -52,7 +52,7 @@ export default async function Home() {
   const proyects = await getProyects();
 
   return (
-    <main className="relative transition-all duration-700 dark:bg-pattern[.1] bg-pattern dark:bg-backgrounddark dark:text-white">
+    <main className="relative transition-all duration-700 dark:bg-backgrounddark dark:text-white">
       <Header />
 
       <div className="">
@@ -74,7 +74,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <div id="treyectoria" className="flex flex-col items-center justify-center m-4">
+        <div id="treyectoria" className="flex flex-col items-center justify-center mx-4 mt-10">
           <div className={`${raleway.className}`}>
             <h1 className="mb-4 text-4xl font-bold"> Mi trayectoria
               <span className="text-adriPink"> profesional</span>
@@ -94,7 +94,7 @@ export default async function Home() {
 
         </div>
 
-        <div id="proyectos" className="flex flex-col items-center justify-center m-4">
+        <div id="proyectos" className="flex flex-col items-center justify-center m-4 mt-10">
           <div className={`${raleway.className}`}>
             <h1 className="mb-4 text-4xl font-bold"> Mis
               <span className="text-adriPink"> proyectos</span>
@@ -108,13 +108,13 @@ export default async function Home() {
               ))}
           </div>
 
-          <button className={`${raleway.className} p-4 text-lg text-white rounded-lg bg-adriPink`}> Ver más proyectos </button>
+          {/* <button className={`${raleway.className} p-4 text-lg text-white rounded-lg bg-adriPink`}> Ver más proyectos </button> */}
         </div>
 
-        <div id="tecnologias" className="flex flex-col items-center justify-center m-4">
+        <div id="tecnologias" className="flex flex-col items-center justify-center m-4 mt-10">
           <div className={`${raleway.className}`}>
             <h1 className="mb-4 text-4xl font-bold"> Mis
-              <span className="text-adriPink"> tecnologias </span>
+              <span className="text-adriPink"> tecnologías </span>
             </h1>
           </div>
           {technologies ? (
