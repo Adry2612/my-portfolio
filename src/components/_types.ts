@@ -13,6 +13,7 @@ export interface ProyectType {
   labels: Array<string>;
   repo_url: string;
   main: boolean;
+  type: string;
 }
 
 export interface JobType {

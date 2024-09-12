@@ -4,12 +4,12 @@ import AdrianImage from '/public/photo.jpg';
 import DownloadIcon from "@/components/icons/DownloadIcon";
 import Timelife from "@/components/Timelife";
 import Job from "@/components/Job";
-import Proyect from "@/components/Proyect";
 import ThemeButton from "@/components/ThemeButton";
 import { raleway } from "./fonts";
-import { JobType, ProyectType } from "@/components/_types";
+import { JobType } from "@/components/_types";
 import TechnologiesFilter from "@/components/TechnologiesFilter";
 import Link from "next/link";
+import ProyectFilter from "@/components/ProyectFilter";
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 async function getJobs() {
@@ -102,13 +102,9 @@ export default async function Home() {
             </h1>
           </div>
 
-          <div className="grid w-full gap-6 my-6 grid-col md:grid-flow-row md:grid-cols-2 lg:w-3/4">
-            {
-              proyects.proyects.filter((proyect: ProyectType) => proyect.main === true).map((proyect: ProyectType) => (
-                <Proyect key={proyect._id} proyect={proyect} />
-              ))}
-          </div>
-
+          {
+            <ProyectFilter proyects={proyects.proyects} />
+          }
 
           <Link href="/proyects"><button className={`${raleway.className} p-4 text-lg text-white rounded-lg bg-adriPink`}> Ver más proyectos </button></Link>
         </div>

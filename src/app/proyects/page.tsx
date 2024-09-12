@@ -3,6 +3,7 @@ import Proyect from "@/components/Proyect";
 import ThemeButton from "@/components/ThemeButton";
 import { raleway } from "../fonts";
 import { ProyectType } from "@/components/_types";
+import ProyectFilter from "@/components/ProyectFilter";
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 async function getProyects() {
@@ -27,8 +28,6 @@ export default async function Proyects() {
 
   return (
     <main className="relative transition-all duration-700 dark:bg-backgrounddark dark:text-white">
-      <Header />
-
       <div className="">
         <div id="proyectos" className="flex flex-col items-center justify-center m-4 mt-10">
           <div className={`${raleway.className}`}>
@@ -37,12 +36,9 @@ export default async function Proyects() {
             </h1>
           </div>
 
-          <div className="grid w-full gap-6 my-6 grid-col md:grid-flow-row md:grid-cols-2 lg:w-3/4">
-            {
-              proyects.proyects.map((proyect: ProyectType) => (
-                <Proyect key={proyect._id} proyect={proyect} />
-              ))}
-          </div>
+          {
+            <ProyectFilter proyects={proyects.proyects} main={false} />
+          }
         </div>
       </div>
 
