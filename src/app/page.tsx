@@ -106,7 +106,7 @@ export default async function Home() {
             <ProyectFilter proyects={proyects.proyects} />
           }
 
-          <Link href="/proyects"><button className={`${raleway.className} p-4 text-lg text-white rounded-lg bg-adriPink`}> Ver más proyectos </button></Link>
+          {/* <Link href="/proyects"><button className={`${raleway.className} p-4 text-lg text-white rounded-lg bg-adriPink`}> Ver más proyectos </button></Link> */}
         </div>
 
         <div id="tecnologias" className="flex flex-col items-center justify-center m-4 mt-10">
