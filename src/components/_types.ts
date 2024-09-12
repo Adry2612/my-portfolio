@@ -10,8 +10,10 @@ export interface ProyectType {
   name: string;
   img: string;
   deploy_url: string;
-  labels: string;
+  labels: Array<string>;
   repo_url: string;
+  main: boolean;
+  type: string;
 }
 
 export interface JobType {

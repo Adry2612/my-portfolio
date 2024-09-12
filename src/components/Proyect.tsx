@@ -24,11 +24,11 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
 
           <div className='flex gap-2 mt-2 links'>
             {proyect.deploy_url && (
-              <a href={proyect.deploy_url} className='p-3 text-sm text-white rounded-lg bg-adriPinkDark'>
+              <a href={proyect.deploy_url} className='p-3 text-sm text-white rounded-lg bg-adriPinkDark hover:bg-white z-1 hover:text-adriPinkDark'>
                 <FontAwesomeIcon icon={faArrowPointer} /> Ver despliegue
               </a>
             )}
-            <a className='p-3 text-white rounded-lg bg-adriPinkDark'>
+            <a className='p-3 text-white rounded-lg bg-adriPinkDark z-1 hover:bg-white hover:text-adriPinkDark'>
               <FontAwesomeIcon icon={faGithub} /> Ver repositorio
             </a>
           </div>
