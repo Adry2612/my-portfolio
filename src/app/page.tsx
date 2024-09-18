@@ -60,13 +60,7 @@ export default async function Home() {
       <div className="">
         <div className="flex flex-col items-center justify-around p-5 mt-10 mr-4 lg:flex-row">
           <div className="relative w-[20rem] h-[15rem] md:w-[30rem] md:h-[35rem] ">
-            <Suspense fallback={
-              <div className="rounded-lg bg-cover bg-slate-200">
-                j
-              </div>
-            }>
-              <Image src={AdrianImage} alt="Logo de Adrián" objectFit="cover" layout="fill" className="rounded-lg" />
-            </Suspense>
+            <Image src={AdrianImage} alt="Logo de Adrián" objectFit="cover" layout="fill" className="rounded-lg" />
           </div>
 
           <div className="flex flex-col mt-5 lg:mt-0 ">
