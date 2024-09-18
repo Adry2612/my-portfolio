@@ -6,16 +6,19 @@ import { ProyectType } from './_types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMobileAlt, faMobileButton } from '@fortawesome/free-solid-svg-icons';
 import Proyect from './Proyect';
+import ProyectSkeleton from './ProyectSkeleton';
 
 export default function ProyectFilter({ proyects, main }: { proyects: ProyectType[], main?: boolean }) {
   const [active, setActive] = useState<string>('web');
   const [filteredProyects, setFilteredProyects] = useState<ProyectType[]>([]);
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const filteredResults = proyects.filter((proyect: ProyectType) => proyect.type === active);
 
     setFilteredProyects(filteredResults);
-  }, [active, proyects, setFilteredProyects]);
+    setIsLoading(false);
+  }, [active, proyects, isLoading, setFilteredProyects]);
 
   return (
     <>
@@ -35,9 +38,17 @@ export default function ProyectFilter({ proyects, main }: { proyects: ProyectTyp
       </div>
 
       <div className="grid w-full gap-6 my-6 grid-col md:grid-flow-row md:grid-cols-2 lg:w-3/4">
-        {filteredProyects.map((proyect: ProyectType) => (
-          <Proyect key={proyect._id} proyect={proyect} />
-        ))}
+        {
+          isLoading ? (
+            <ProyectSkeleton />
+          ) : (
+            filteredProyects.map((proyect: ProyectType) => (
+              <div key={proyect._id}>
+                <Proyect proyect={proyect} />
+              </div>
+            )))
+        }
+
       </div >
     </>
   )

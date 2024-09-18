@@ -8,8 +8,9 @@ import ThemeButton from "@/components/ThemeButton";
 import { raleway } from "./fonts";
 import { JobType } from "@/components/_types";
 import TechnologiesFilter from "@/components/TechnologiesFilter";
-import Link from "next/link";
 import ProyectFilter from "@/components/ProyectFilter";
+import ProyectSkeleton from "@/components/ProyectSkeleton";
+import { Suspense } from "react";
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 async function getJobs() {
@@ -59,7 +60,13 @@ export default async function Home() {
       <div className="">
         <div className="flex flex-col items-center justify-around p-5 mt-10 mr-4 lg:flex-row">
           <div className="relative w-[20rem] h-[15rem] md:w-[30rem] md:h-[35rem] ">
-            <Image src={AdrianImage} alt="Logo de Adrián" objectFit="cover" layout="fill" className="rounded-lg" />
+            <Suspense fallback={
+              <div className="rounded-lg bg-cover bg-slate-200">
+                j
+              </div>
+            }>
+              <Image src={AdrianImage} alt="Logo de Adrián" objectFit="cover" layout="fill" className="rounded-lg" />
+            </Suspense>
           </div>
 
           <div className="flex flex-col mt-5 lg:mt-0 ">
@@ -103,7 +110,13 @@ export default async function Home() {
           </div>
 
           {
-            <ProyectFilter proyects={proyects.proyects} />
+            proyects.proyects ? (
+              <ProyectFilter proyects={proyects.proyects} />
+            ) : (
+              <div className='flex-row w-full'>
+                <ProyectSkeleton />
+              </div>
+            )
           }
 
           {/* <Link href="/proyects"><button className={`${raleway.className} p-4 text-lg text-white rounded-lg bg-adriPink`}> Ver más proyectos </button></Link> */}

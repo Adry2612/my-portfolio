@@ -1,11 +1,23 @@
+'use client'
+
 import Image from 'next/image';
 import { JobType } from './_types';
+import { useState } from 'react';
 
 export default function Job({ job }: { job: JobType }) {
-
+  const [isLoading, setIsLoading] = useState(true)
   return (
     <div className="relative flex flex-col items-center justify-between w-full p-4 overflow-hidden border border-gray-200 md:flex-row border-1 lg:w-2/3 gap-2 rounded-xl">
-      <Image src={`/job-icons/${job.icon}`} alt={job.name} width={150} height={150} className='absolute right-3 -top-10 opacity-10' />
+      <Image src={`/job-icons/${job.icon}`} alt={job.name}
+        onLoadingComplete={() => setIsLoading(false)}
+        style={{
+          opacity: isLoading ? 0 : 0.2,
+          transition: 'opacity 0.5s ease-in-out'
+        }}
+        width={150}
+        height={150}
+        className='absolute right-3 -top-10'
+      />
       <div className="flex flex-col items-center justify-center md:items-start">
         <div className="flex flex-col items-center justify-center md:flex-row md:mr-auto">
           <h2 className="font-bold text-md md:text-xl text-wrap text-adriPink"> {job.description} </h2>
