@@ -32,7 +32,7 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
         />
 
         <div
-          className={`${accordion ? 'translate-y-44' : ''} ${isLoading ? "opacity-0" : "opacity-100 transition-opacity delay-300"} bg-adriPink h-56 overflow-hidden flex justify-center items-center flex-col rounded-lg transform transition-transform duration-500 ease-in-out z-20 mb-4 shadow-lg shadow-neutral-400 dark:shadow-lg`}>
+          className={`${accordion ? 'translate-y-44' : ''} ${isLoading ? "opacity-0" : "opacity-100 transition-opacity"} bg-adriPink h-56 overflow-hidden flex justify-center items-center flex-col rounded-lg transform transition-transform duration-500 ease-in-out z-20 mb-4 shadow-lg shadow-neutral-400 dark:shadow-lg`}>
           <h1 className='text-3xl font-bold text-white'> {proyect.name} </h1>
 
           <div className='flex gap-2 mt-2 links'>
