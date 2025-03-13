@@ -5,7 +5,7 @@ import Job from '@/models/Job';
 export async function GET() {
   try {
     await initMongoose();
-    const jobs = await Job.find().lean();
+    const jobs = (await Job.find().lean().sort({startDate: -1}));
 
     return NextResponse.json({ jobs });
   } catch (error) {

@@ -27,3 +27,4 @@ export interface JobType {
   endDate: string;
   thingsDone: string[];
 }
+

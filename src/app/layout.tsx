@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { work_sans } from "./fonts";
+import { GeneralSansRegular } from "./fonts";
 
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full">
-      <body className={work_sans.className}>{children}</body>
+      <body className={GeneralSansRegular.className}>{children}</body>
     </html>
   );
 }
