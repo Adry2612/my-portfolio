@@ -18,12 +18,13 @@ export default function Job({ job, index }: { job: JobType, index: number }) {
         <Image src={`/job-icons/${job.icon}`} alt={job.name}
           onLoadingComplete={() => setIsLoading(false)}
           style={{
+            objectFit: 'contain',
             opacity: isLoading ? 0 : 0.2,
             transition: 'opacity 0.5s ease-in-out'
           }}
           width={150}
           height={150}
-          className='absolute right-3 -top-10'
+          className='absolute right-3 -top-12'
         />
         <div className="flex flex-col items-center justify-center md:items-start">
           <div className="flex flex-col items-center justify-center md:flex-row md:mr-auto">
@@ -46,7 +47,7 @@ export default function Job({ job, index }: { job: JobType, index: number }) {
           <div className="mx-4 mt-4">
             <ul className='text-gray-600 list-disc list-inside dark:text-white'>
               {
-                job.thingsDone.map((text) => (
+                job.thingsDone && job.thingsDone.map((text) => (
                   <li key={text}> {text} </li>
                 ))
               }
