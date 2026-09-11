@@ -32,7 +32,7 @@ const SelectionButton: React.FC<SelectionButtonProps> = ({ category, active, set
           opacity: 1
         });
       }}
-      className={`${active === category.category ? 'bg-adriPink text-white' : 'bg-gray-200 text-black'} relative z-10 py-2 px-5 rounded-lg flex items-center justify-evenly gap-1`}
+      className={`filter-button ${active === category.category ? 'filter-button-active' : ''}`}
     >
       {category.icon}
       {category.name}

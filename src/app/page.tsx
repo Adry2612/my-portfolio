@@ -10,37 +10,46 @@ import ProyectFilter from '@/components/ProyectFilter';
 import ProyectSkeleton from '@/components/skeleton/ProyectSkeleton';
 import Footer from '@/components/Footer';
 
-import { GeneralSansLight, SatoshiBold} from './fonts';
+import { GeneralSansLight, SatoshiBold } from './fonts';
 import { JobType } from '@/components/_types';
 import FadeInSection from '@/components/animation/FadeInComponent';
+import { headers } from 'next/headers';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
-async function getJobs() {
-  const res = await fetch(`${baseUrl}/api/jobs`);
-  if (!res.ok) {
-    throw new Error(`Error al obtener la experiencia laboral - ${res}`);
-  }
+async function getApiBaseUrl() {
+  const requestHeaders = await headers();
+  const host = requestHeaders.get('host');
+  const protocol = requestHeaders.get('x-forwarded-proto') ?? 'http';
 
-  return res.json();
+  return host ? `${protocol}://${host}` : baseUrl;
 }
 
-async function getTechnologies() {
-  const res = await fetch(`${baseUrl}/api/tecnologies`);
-  if (!res.ok) {
-    throw new Error(`Error al obtener las tecnologias - ${res}`);
+async function getJobs(apiBaseUrl: string) {
+  try {
+    const res = await fetch(`${apiBaseUrl}/api/jobs`);
+    return res.ok ? await res.json() : { jobs: [] };
+  } catch {
+    return { jobs: [] };
   }
-
-  return res.json();
 }
 
-async function getProyects() {
-  const res = await fetch(`${baseUrl}/api/proyects`);
-  if (!res.ok) {
-    throw new Error(`Error al obtener los proyectos - ${res}`);
+async function getTechnologies(apiBaseUrl: string) {
+  try {
+    const res = await fetch(`${apiBaseUrl}/api/tecnologies`);
+    return res.ok ? res.json() : { tecnologies: [] };
+  } catch {
+    return { tecnologies: [] };
   }
+}
 
-  return res.json();
+async function getProyects(apiBaseUrl: string) {
+  try {
+    const res = await fetch(`${apiBaseUrl}/api/proyects`);
+    return res.ok ? res.json() : { proyects: [] };
+  } catch {
+    return { proyects: [] };
+  }
 }
 
 export default async function Home() {
@@ -52,65 +61,114 @@ export default async function Home() {
     );
   }
 
-  const jobs = await getJobs();
-  const technologies = await getTechnologies();
-  const proyects = await getProyects();
+  const apiBaseUrl = await getApiBaseUrl();
+
+  if (!apiBaseUrl) {
+    return <div className='empty-page'>No hay una URL de API configurada.</div>;
+  }
+
+  const jobs = await getJobs(apiBaseUrl);
+  const technologies = await getTechnologies(apiBaseUrl);
+  const proyects = await getProyects(apiBaseUrl);
 
   return (
-    <main className='relative transition-all duration-700 dark:bg-backgrounddark dark:text-white bg-[url("../../public/pattern.jpeg)] bg-cover bg-center'>
-          <Header />
-      <div className=''>
-        <div className='flex flex-col w-screen lg:h-screen '>
+    <main className='site-shell'>
+      <Header />
+      <div className='site-content'>
+        <section
+          className='hero-section'
+          id='sobremi'
+        >
           <FadeInSection>
-            <div className='flex flex-col items-center justify-around p-5 mt-10 mr-4 lg:flex-row'>
-              <div className='relative w-2/3 md:w-[35rem] h-[20rem] lg:w-[30rem] lg:h-[35rem] '>
-                <Image
-                  src={AdrianImage}
-                  alt='Logo de Adrián'
-                  objectFit='cover'
-                  layout='fill'
-                  className='rounded-lg'
-                />
-              </div>
-              <div className='flex flex-col mt-8 ml-5 lg:mt-0'>
-              <h3 className={`${GeneralSansLight.className} lg:text-2xl text-xl text-grey-500`}> Haciendo lo complejo, simple y funcional.</h3>
-
-                <h1
-                  className={`${SatoshiBold.className} lg:text-8xl text-6xl font-bold bg-gradient-to-r from-neutral-300 via-red-300 to-red-500 bg-clip-text text-transparent bg-300% animate-animatedGradient`}
-                >
-                  Adrián Vidal
+            <div className='hero-grid'>
+              <div className='hero-copy'>
+                <p className='eyebrow'>
+                  <span className='eyebrow-dot' /> Disponibilidad completa
+                </p>
+                <h1 className={`${SatoshiBold.className} hero-title`}>
+                  Diseño y código con <em>criterio.</em>
                 </h1>
-                <h2 className='text-2xl text-gray-600 lg:text-3xl dark:text-white'>Desarrollador full stack multiplataforma</h2>
-
-                <a
-                  className='flex items-center justify-center mt-5 lg:mt-24'
-                  href='/files/curriculum.pdf'
-                  download='Curriculum de Adrián Vidal'
-                >
-                  <button className='flex flex-row items-center justify-around gap-4 p-5 text-lg text-black transition-all duration-200 ease-in-out bg-gray-200 rounded-lg shadow-lg hover:bg-adriPink hover:text-white shadow-neutral-400'>
-                    Descarga mi cv
-                    <DownloadIcon style='text-white' />
-                  </button>
-                </a>
+                <p className='hero-intro'>
+                  Soy Adrián Vidal, desarrollador full stack con más de 5 años
+                  de experiencia. Transformo ideas y necesidades reales en
+                  productos digitales claros, rápidos y fáciles de mantener.
+                </p>
+                <div className='hero-actions'>
+                  <a
+                    className='primary-action'
+                    href='#proyectos'
+                  >
+                    Ver proyectos <span>↗</span>
+                  </a>
+                  <a
+                    className='secondary-action'
+                    href='/files/curriculum.pdf'
+                    download='Curriculum de Adrian Vidal'
+                  >
+                    Descargar CV <DownloadIcon style='currentColor' />
+                  </a>
+                </div>
+                <p className='hero-note'>
+                  Full stack · Multiplataforma · Valencia / remoto
+                </p>
+              </div>
+              <div className='hero-portrait-wrap'>
+                <div className='hero-index'>
+                  01 <span>/</span> 04
+                </div>
+                <div className='hero-portrait'>
+                  <Image
+                    src={AdrianImage}
+                    alt='Adrián Vidal trabajando como desarrollador'
+                    fill
+                    priority
+                    sizes='(max-width: 768px) 90vw, 43vw'
+                    className='hero-image'
+                  />
+                </div>
+                <div className='portrait-caption'>
+                  <span>AV / 2025</span>
+                  <span className='caption-line' />
+                  <span>Construyendo en público</span>
+                </div>
               </div>
             </div>
           </FadeInSection>
-        </div>
+        </section>
 
         <div
-          id='treyectoria'
-          className='flex flex-col items-center justify-center mx-4 mt-10'
+          className='ticker'
+          aria-label='Especialidades'
         >
-          <div className={`${SatoshiBold.className}`}>
-            <h1 className='mb-8 text-5xl font-bold text-gray-600 dark:text-white text-shadow-md text-shadow-gray-400'>
-              Mi trayectoria
-              <span className='text-adriPink'> profesional</span>
-            </h1>
+          <span>FRONTEND</span>
+          <b>✳</b>
+          <span>BACKEND</span>
+          <b>✳</b>
+          <span>PRODUCTO</span>
+          <b>✳</b>
+          <span>APRENDER HACIENDO</span>
+        </div>
+
+        <section
+          className='section-block trajectory-section'
+          id='treyectoria'
+        >
+          <div className='section-heading'>
+            <p className='section-kicker'>02 / Trayectoria</p>
+            <h2 className={`${SatoshiBold.className}`}>
+              Experiencia que
+              <br />
+              <em>deja huella.</em>
+            </h2>
+            <p className='section-summary'>
+              Una selección de los contextos donde he convertido ideas,
+              necesidades y procesos en software útil.
+            </p>
           </div>
           <Timelife />
-          {jobs.jobs ? (
-            <div className='flex flex-col-reverse items-center justify-center w-full gap-4 mt-4'>
-              {jobs.jobs.map((job: JobType, index: number) => (
+          {jobs.jobs ?
+            <div className='jobs-list'>
+              {jobs.jobs.reverse().map((job: JobType, index: number) => (
                 <Job
                   key={job._id}
                   job={job}
@@ -118,53 +176,67 @@ export default async function Home() {
                 />
               ))}
             </div>
-          ) : (
-            'Cargando...'
-          )}
-        </div>
+          : <p className='loading-copy'>Cargando experiencia...</p>}
+        </section>
 
-        <div
+        <section
+          className='section-block projects-section'
           id='proyectos'
-          className='flex flex-col items-center justify-center m-4 mt-10'
         >
-          <div className={`${SatoshiBold.className}`}>
-            <h1 className='mb-8 text-5xl font-bold text-gray-600 dark:text-white'>
-              Mis
-              <span className='text-adriPink'> proyectos</span>
-            </h1>
+          <div className='section-heading section-heading-wide'>
+            <p className='section-kicker'>03 / Proyectos</p>
+            <h2 className={`${SatoshiBold.className}`}>
+              Trabajo que
+              <br />
+              <em>habla solo.</em>
+            </h2>
+            <p className='section-summary'>
+              Productos, experimentos y sistemas que combinan una interfaz
+              cuidada con una base técnica sólida.
+            </p>
           </div>
-
-          {proyects.proyects ? (
+          {proyects.proyects ?
             <ProyectFilter proyects={proyects.proyects} />
-          ) : (
-            <div className='flex-row w-full'>
-              <ProyectSkeleton />
-            </div>
-          )}
+          : <ProyectSkeleton />}
+        </section>
 
-          {/* <Link href="/proyects"><button className={`${raleway.className} p-4 text-lg text-white rounded-lg bg-adriPink`}> Ver más proyectos </button></Link> */}
-        </div>
-
-        <div
+        <section
+          className='section-block stack-section'
           id='tecnologias'
-          className='flex flex-col items-center justify-center m-4 mt-10'
         >
-          <div className={`${SatoshiBold.className}`}>
-            <h1 className='mb-8 text-5xl font-bold text-gray-600 dark:text-white'>
-              Mis
-              <span className='text-adriPink'> tecnologías </span>
-            </h1>
+          <div className='section-heading'>
+            <p className='section-kicker'>04 / Stack</p>
+            <h2 className={`${SatoshiBold.className}`}>
+              Las herramientas
+              <br />
+              <em>son el medio.</em>
+            </h2>
+            <p className='section-summary'>
+              Tecnologías que uso para pensar, construir y entregar sin perder
+              de vista a las personas.
+            </p>
           </div>
-          {technologies ? (
+          {technologies ?
             <TechnologiesFilter technologies={technologies.tecnologies} />
-          ) : (
-            'Cargando...'
-          )}
-        </div>
+          : <p className='loading-copy'>Cargando tecnologías...</p>}
+        </section>
+
+        <section className='contact-section'>
+          <p className='section-kicker'>05 / Siguiente paso</p>
+          <h2 className={`${SatoshiBold.className}`}>
+            ¿Hacemos algo
+            <br />
+            <em>que importe?</em>
+          </h2>
+          <a
+            className='primary-action contact-action'
+            href='mailto:adrianvidal2612@gmail.com'
+          >
+            Hablemos <span>↗</span>
+          </a>
+        </section>
       </div>
-
       <Footer />
-
       <ThemeButton />
     </main>
   );
