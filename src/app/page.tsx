@@ -102,7 +102,7 @@ export default async function Home() {
                   </a>
                   <a
                     className='secondary-action'
-                    href='/files/curriculum.pdf'
+                    href='/files/Adrian Vidal Lopez-CV(es).pdf'
                     download='Curriculum de Adrian Vidal'
                   >
                     Descargar CV <DownloadIcon style='currentColor' />
