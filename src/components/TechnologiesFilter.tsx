@@ -65,9 +65,10 @@ export default function TechnologiesFilter({
 
   return (
     <>
-      <div className='relative flex flex-wrap justify-center gap-2 shrink-1'>
-        {categories.map((category, index) => (
+      <div className='filters-row technology-filters'>
+        {categories.map((category) => (
           <SelectionButton
+            key={category.category}
             category={category}
             active={active}
             setActive={setActive}
@@ -77,7 +78,7 @@ export default function TechnologiesFilter({
 
         <motion.div
           layout
-          className='absolute top-0 hidden md:block left-0 z-0 h-full mx-auto rounded-lg w-fit bg-adriPink'
+          className='filter-slider'
           animate={{
             x: slidePosition.left,
             width: slidePosition.width,
@@ -89,7 +90,7 @@ export default function TechnologiesFilter({
       </div>
 
       <motion.div
-        className='flex flex-row flex-wrap items-center justify-center w-2/3 gap-5 m-6'
+        className='technology-grid'
         key={active}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -107,7 +108,7 @@ export default function TechnologiesFilter({
             ))
           : filteredTechnologies.map((tech: TechnologyType, index) => (
               <motion.div
-                key={tech.id}
+                key={tech.id || tech.name}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -115,16 +116,16 @@ export default function TechnologiesFilter({
                   ease: 'easeInOut',
                   delay: 0.1 * index,
                 }}
-                className={`relative flex items-center justify-center w-48 p-4 px-1 py-2 overflow-hidden bg-blue-400 rounded-2xl bg-opacity-5 hover:border hover:bg-opacity-10 h-14 ${SatoshiRegular.className}`}
+                className={`technology-item ${SatoshiRegular.className}`}
               >
-                <p className='absolute text-xl leading-5 bottom-1 left-3 max-w-10'>
+                <p>
                   {tech.name}
                 </p>
                 <Image
                   src={`/tecnology-icons/${tech.icon}`}
                   width={40}
                   height={40}
-                  className='absolute -top-2 right-5 opacity-30'
+                  className='technology-icon'
                   alt={tech.name}
                 />
               </motion.div>

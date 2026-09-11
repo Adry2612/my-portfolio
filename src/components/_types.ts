@@ -9,6 +9,7 @@ export interface ProyectType {
   _id: string;
   name: string;
   img: string;
+  images?: string[];
   deploy_url: string;
   labels: Array<string>;
   repo_url: string;

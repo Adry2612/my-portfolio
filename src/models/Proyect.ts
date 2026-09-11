@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const proyectSchema = new Schema({
   name: String,
   img: String,
+  images: [String],
   deploy_url: String,
   repo_url: String,
   labels: String,

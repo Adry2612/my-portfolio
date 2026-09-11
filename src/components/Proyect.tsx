@@ -1,54 +1,180 @@
-'use client'
+'use client';
 
-import { useState } from 'react';
-import Image from "next/image";
+import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { ProyectType } from './_types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faArrowPointer } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowPointer,
+  faChevronLeft,
+  faChevronRight,
+} from '@fortawesome/free-solid-svg-icons';
 import FadeInComponent from './animation/FadeInComponent';
 
 export default function Proyect({ proyect }: { proyect: ProyectType }) {
-  const [accordion, setAccordion] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [slide, setSlide] = useState<number>(0);
+  const [open, setOpen] = useState<boolean>(false);
+  const [isHovering, setIsHovering] = useState<boolean>(false);
+  const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const AUTOPLAY_MS = 1600;
 
-  const openAccordion = () => {
-    return setAccordion(prev => !prev);
-  }
+  const images =
+    proyect.images && proyect.images.length > 0 ?
+      proyect.images
+    : String(proyect.img || '')
+        .split(',')
+        .map((image) => image.trim())
+        .filter(Boolean);
+
+  const toggleOpen = () => setOpen((prev) => !prev);
+
+  const startAutoplay = () => {
+    if (images.length <= 1) return;
+    setIsHovering(true);
+    if (autoplayRef.current) return;
+    autoplayRef.current = setInterval(() => {
+      setSlide((prev) => (prev + 1) % images.length);
+    }, AUTOPLAY_MS);
+  };
+
+  const stopAutoplay = () => {
+    setIsHovering(false);
+    if (autoplayRef.current) {
+      clearInterval(autoplayRef.current);
+      autoplayRef.current = null;
+    }
+    setSlide(0);
+  };
+
+  useEffect(() => () => stopAutoplay(), []);
+
+  const goToSlide = (event: React.MouseEvent, index: number) => {
+    event.stopPropagation();
+    setSlide(index);
+  };
+
+  const changeSlide = (event: React.MouseEvent, direction: 1 | -1) => {
+    event.stopPropagation();
+    setSlide((prev) => (prev + direction + images.length) % images.length);
+  };
 
   return (
-    <>
-      <FadeInComponent>
-        <div className={`shadow-lg shadow-neutral-400 relative cursor-pointer rounded-lg h-56 transform duration-300 dark:shadow-md hover:-translate-y-2 ${accordion ? 'mb-40 ' : 'mb-0'}`} onClick={openAccordion}>
-          <Image src={`/proyect-images/${proyect.img}`}
-            layout='fill'
-            objectFit='cover'
-            alt=""
-            onLoadingComplete={() => setIsLoading(false)}
-            style={{
-              opacity: isLoading ? 0 : 1,
-            }}
-            className={`rounded-lg z-10`}
-          />
-          <div
-            className={`${accordion ? 'translate-y-44' : ''} ${isLoading ? "opacity-0" : "opacity-100 transition-opacity"} bg-adriPink h-56 overflow-hidden flex justify-center items-center flex-col rounded-lg transform transition-transform duration-500 ease-in-out z-20 mb-4 shadow-lg shadow-neutral-400 dark:shadow-lg`}>
-            <h1 className='text-3xl font-bold text-white mt-6'> {proyect.name} </h1>
-            <div className='flex mt-6 gap-2 links'>
-              {proyect.deploy_url && (
-                <a href={proyect.deploy_url} className='h-full p-3 text-sm text-white rounded-lg bg-adriPinkDark hover:bg-white z-1 hover:text-adriPinkDark'>
-                  <FontAwesomeIcon icon={faArrowPointer} /> Ver despliegue
+    <FadeInComponent>
+      <motion.div
+        className='project-card'
+        whileHover={{ y: -8 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+      >
+        <div
+          className='project-image-wrap'
+          onClick={toggleOpen}
+          onMouseEnter={startAutoplay}
+          onMouseLeave={stopAutoplay}
+        >
+          <div className='project-carousel'>
+            {images.map((image, index) => (
+              <Image
+                key={image}
+                src={`/proyect-images/${image}`}
+                fill
+                sizes='(max-width: 768px) 100vw, 50vw'
+                alt=''
+                onLoadingComplete={() => index === 0 && setIsLoading(false)}
+                style={{
+                  opacity:
+                    isLoading ? 0
+                    : index === slide ? 1
+                    : 0,
+                }}
+                className='project-image'
+              />
+            ))}
+          </div>
+          {images.length > 1 && (
+            <>
+              <button
+                type='button'
+                onClick={(event) => changeSlide(event, -1)}
+                className='project-carousel-arrow project-carousel-prev'
+                aria-label='Imagen anterior'
+              >
+                <FontAwesomeIcon icon={faChevronLeft} />
+              </button>
+              <button
+                type='button'
+                onClick={(event) => changeSlide(event, 1)}
+                className='project-carousel-arrow project-carousel-next'
+                aria-label='Imagen siguiente'
+              >
+                <FontAwesomeIcon icon={faChevronRight} />
+              </button>
+              <div className='project-carousel-dots'>
+                {images.map((image, index) => (
+                  <button
+                    key={image}
+                    type='button'
+                    onClick={(event) => goToSlide(event, index)}
+                    className={`project-carousel-dot ${index === slide ? 'project-carousel-dot-active' : ''}`}
+                    aria-label={`Ver imagen ${index + 1}`}
+                  >
+                    {index === slide && (
+                      <span
+                        key={isHovering ? `progress-${slide}` : 'idle'}
+                        className={`project-carousel-dot-fill ${isHovering ? 'project-carousel-dot-fill-animate' : ''}`}
+                        style={
+                          isHovering ?
+                            { animationDuration: `${AUTOPLAY_MS}ms` }
+                          : undefined
+                        }
+                      />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+        <div
+          className={`project-info-wrap ${open ? '' : 'project-info-collapsed'}`}
+        >
+          <div className='project-info'>
+            <div className='project-info-inner'>
+              <h1> {proyect.name} </h1>
+              <div className='project-links'>
+                {proyect.deploy_url && (
+                  <a
+                    href={proyect.deploy_url}
+                    target='_blank'
+                    rel='noreferrer'
+                    className='project-link'
+                  >
+                    <FontAwesomeIcon icon={faArrowPointer} /> Ver despliegue
+                  </a>
+                )}
+                <a
+                  href={proyect.repo_url}
+                  target='_blank'
+                  rel='noreferrer'
+                  className='project-link'
+                >
+                  <FontAwesomeIcon icon={faGithub} /> Ver repositorio
                 </a>
-              )}
-              <a className='p-3 text-white rounded-lg bg-adriPinkDark z-1 hover:bg-white hover:text-adriPinkDark'>
-                <FontAwesomeIcon icon={faGithub} /> Ver repositorio
-              </a>
-            </div>
-            <span />
-            <div className='labels'>
+              </div>
+              <ul className='project-labels'>
+                {Array.isArray(proyect.labels) ?
+                  proyect.labels.map((label) => <li key={label}>{label}</li>)
+                : String(proyect.labels)
+                    .split(',')
+                    .map((label) => <li key={label}>{label.trim()}</li>)
+                }
+              </ul>
             </div>
           </div>
         </div>
-      </FadeInComponent>
-    </>
-  )
+      </motion.div>
+    </FadeInComponent>
+  );
 }

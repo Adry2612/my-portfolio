@@ -1,59 +1,60 @@
-'use client'
+'use client';
 
 import Image from 'next/image';
 import { JobType } from './_types';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
-export default function Job({ job, index }: { job: JobType, index: number }) {
-  const [isLoading, setIsLoading] = useState(true)
+export default function Job({ job, index }: { job: JobType; index: number }) {
+  const [isLoading, setIsLoading] = useState(true);
   return (
     <motion.div
       key={job._id}
-      initial={{ opacity: 0, y: 50}}
-      animate={{ opacity: 1, y: 0}}
-      transition={{ duration: 0.7, ease: "easeInOut", delay: 0.3 * index }}
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, ease: 'easeInOut', delay: 0.3 * index }}
       threshold={0.5}
-      className="relative flex flex-col items-center justify-between w-full gap-2 p-4 overflow-hidden border border-gray-200 md:flex-row border-1 lg:w-2/3 rounded-xl">
-        <Image src={`/job-icons/${job.icon}`} alt={job.name}
-          onLoadingComplete={() => setIsLoading(false)}
-          style={{
-            objectFit: 'contain',
-            opacity: isLoading ? 0 : 0.2,
-            transition: 'opacity 0.5s ease-in-out'
-          }}
-          width={150}
-          height={150}
-          className='absolute right-3 -top-12'
-        />
-        <div className="flex flex-col items-center justify-center md:items-start">
-          <div className="flex flex-col items-center justify-center md:flex-row md:mr-auto">
-            <h2 className="font-bold text-md md:text-xl text-wrap text-adriPink"> {job.description} </h2>
-            <span className='md:m-2'> - </span>
-            <h3 className='text-lg text-gray-400'> {job.name}</h3>
-          </div>
-          <div>
-            <h3 className="font-light text-gray-600 dark:text-white"> {job.startDate} - {job.endDate} </h3>
-          </div>
-          <div className="w-full mt-4">
-            <ol className='flex flex-row flex-wrap items-center justify-center gap-2 md:justify-start'>
-              {
-                job.tecnologies.map((tecnology) => (
-                  <li key={tecnology} className='p-2 text-white rounded-lg bg-adriPink'> {tecnology} </li>
-                ))
-              }
-            </ol>
-          </div>
-          <div className="mx-4 mt-4">
-            <ul className='text-gray-600 list-disc list-inside dark:text-white'>
-              {
-                job.thingsDone && job.thingsDone.map((text) => (
-                  <li key={text}> {text} </li>
-                ))
-              }
-            </ul>
-          </div>
+      className='job-row'
+    >
+      <Image
+        src={`/job-icons/${job.icon}`}
+        alt={job.name}
+        onLoadingComplete={() => setIsLoading(false)}
+        style={{
+          objectFit: 'contain',
+          opacity: isLoading ? 0 : 1,
+          transition: 'opacity 0.5s ease-in-out',
+        }}
+        width={150}
+        height={150}
+        className='job-icon'
+      />
+      <div className='job-content'>
+        <div className='job-title-line'>
+          <h2> {job.description} </h2>
+          <span> / </span>
+          <h3> {job.name}</h3>
         </div>
+        <div className='job-date'>
+          <h3>
+            {' '}
+            {job.startDate} - {job.endDate}{' '}
+          </h3>
+        </div>
+        <div className='job-tech-wrap'>
+          <ol className='job-tech-list'>
+            {job.tecnologies.map((tecnology) => (
+              <li key={tecnology}> {tecnology} </li>
+            ))}
+          </ol>
+        </div>
+        <div className='job-details'>
+          <ul>
+            {job.thingsDone &&
+              job.thingsDone.map((text) => <li key={text}> {text} </li>)}
+          </ul>
+        </div>
+      </div>
     </motion.div>
-  )
+  );
 }
