@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 'use client';
 import { Link } from 'react-scroll';
 import { useEffect, useState } from 'react';
