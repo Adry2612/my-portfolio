@@ -7,7 +7,6 @@ import { useScroll } from 'framer-motion';
 import { useMotionValueEvent } from 'framer-motion';
 import AnimatedNavMenu from './animation/AnimatedNavMenu';
 import { AnimatePresence } from 'framer-motion';
-import Logo from '/public/logo.png';
 
 export default function Header() {
   const { scrollY } = useScroll();
@@ -44,7 +43,9 @@ export default function Header() {
     >
       <div className='nav-brand'>
         <Image
-          src={Logo}
+          width={180}
+          height={50}
+          src='/logo.png'
           alt='Logo de Adrián Vidal'
           className='brand-mark'
           priority

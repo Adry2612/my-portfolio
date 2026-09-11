@@ -1,6 +1,6 @@
 import Header from '@/components/Header';
 import Image from 'next/image';
-import AdrianImage from '/public/photo.jpg';
+// import AdrianImage from '../../public/photo.jpg';
 import DownloadIcon from '@/components/icons/DownloadIcon';
 import Timelife from '@/components/Timelife';
 import Job from '@/components/Job';
@@ -118,7 +118,7 @@ export default async function Home() {
                 </div>
                 <div className='hero-portrait'>
                   <Image
-                    src={AdrianImage}
+                    src='/photo.jpg'
                     alt='Adrián Vidal trabajando como desarrollador'
                     fill
                     priority
