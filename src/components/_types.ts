@@ -15,6 +15,9 @@ export interface ProyectType {
   repo_url: string;
   main: boolean;
   type: string;
+  date?: string;
+  profesional?: string;
+  activities?: string[] | string;
 }
 
 export interface JobType {

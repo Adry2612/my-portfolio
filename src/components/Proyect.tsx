@@ -29,6 +29,11 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
         .map((image) => image.trim())
         .filter(Boolean);
 
+  const activities =
+    Array.isArray(proyect.activities) ? proyect.activities
+    : proyect.activities ? [proyect.activities]
+    : [];
+
   const toggleOpen = () => setOpen((prev) => !prev);
 
   const startAutoplay = () => {
@@ -74,6 +79,9 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
           onMouseEnter={startAutoplay}
           onMouseLeave={stopAutoplay}
         >
+          {proyect.profesional && (
+            <span className='project-badge'>{proyect.profesional}</span>
+          )}
           <div className='project-carousel'>
             {images.map((image, index) => (
               <Image
@@ -143,6 +151,9 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
           <div className='project-info'>
             <div className='project-info-inner'>
               <h1> {proyect.name} </h1>
+              {activities.length > 0 && (
+                <p className='project-activities'>{activities.join(', ')}</p>
+              )}
               <div className='project-links'>
                 {proyect.deploy_url && (
                   <a
@@ -154,14 +165,16 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
                     <FontAwesomeIcon icon={faArrowPointer} /> Ver despliegue
                   </a>
                 )}
-                <a
-                  href={proyect.repo_url}
-                  target='_blank'
-                  rel='noreferrer'
-                  className='project-link'
-                >
-                  <FontAwesomeIcon icon={faGithub} /> Ver repositorio
-                </a>
+                {proyect.repo_url && (
+                  <a
+                    href={proyect.repo_url}
+                    target='_blank'
+                    rel='noreferrer'
+                    className='project-link'
+                  >
+                    <FontAwesomeIcon icon={faGithub} /> Ver repositorio
+                  </a>
+                )}
               </div>
               <ul className='project-labels'>
                 {Array.isArray(proyect.labels) ?
