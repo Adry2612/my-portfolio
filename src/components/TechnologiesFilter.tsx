@@ -56,8 +56,8 @@ export default function TechnologiesFilter({
   ];
 
   useEffect(() => {
-    const filteredResults = technologies.filter((tech: TechnologyType) =>
-      tech.category.includes(active)
+    const filteredResults = technologies?.filter((tech: TechnologyType) =>
+      tech?.category.includes(active),
     );
     setFilteredTechnologies(filteredResults);
     setIsLoading(false);
@@ -85,7 +85,7 @@ export default function TechnologiesFilter({
             opacity: slidePosition.opacity,
           }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          style={{ width: '50%'}}
+          style={{ width: '50%' }}
         />
       </div>
 
@@ -96,40 +96,39 @@ export default function TechnologiesFilter({
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {isLoading
-          ? Array.from({ length: 3 }).map((_, i) => (
-              <div
-                key={i}
-                className='relative flex items-center justify-center w-48 p-4 px-1 py-2 overflow-hidden bg-blue-400 animate-pulse rounded-2xl bg-opacity-5 hover:border hover:bg-opacity-10 h-14'
-              >
-                <span className='absolute text-xl bottom-2 left-3 leading-5 w-[80px] h-[10px] bg-neutral-400 rounded-sm' />
-                <span className='absolute -top-2 right-5 opacity-30 w-[40px] h-[40px] bg-neutral-400' />
-              </div>
-            ))
-          : filteredTechnologies.map((tech: TechnologyType, index) => (
-              <motion.div
-                key={tech.id || tech.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.3,
-                  ease: 'easeInOut',
-                  delay: 0.1 * index,
-                }}
-                className={`technology-item ${SatoshiRegular.className}`}
-              >
-                <p>
-                  {tech.name}
-                </p>
-                <Image
-                  src={`/tecnology-icons/${tech.icon}`}
-                  width={40}
-                  height={40}
-                  className='technology-icon'
-                  alt={tech.name}
-                />
-              </motion.div>
-            ))}
+        {isLoading ?
+          Array.from({ length: 3 }).map((_, i) => (
+            <div
+              key={i}
+              className='relative flex items-center justify-center w-48 p-4 px-1 py-2 overflow-hidden bg-blue-400 animate-pulse rounded-2xl bg-opacity-5 hover:border hover:bg-opacity-10 h-14'
+            >
+              <span className='absolute text-xl bottom-2 left-3 leading-5 w-[80px] h-[10px] bg-neutral-400 rounded-sm' />
+              <span className='absolute -top-2 right-5 opacity-30 w-[40px] h-[40px] bg-neutral-400' />
+            </div>
+          ))
+        : filteredTechnologies.map((tech: TechnologyType, index) => (
+            <motion.div
+              key={tech.id || tech.name}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.3,
+                ease: 'easeInOut',
+                delay: 0.1 * index,
+              }}
+              className={`technology-item ${SatoshiRegular.className}`}
+            >
+              <p>{tech.name}</p>
+              <Image
+                src={`/tecnology-icons/${tech.icon}`}
+                width={40}
+                height={40}
+                className='technology-icon'
+                alt={tech.name}
+              />
+            </motion.div>
+          ))
+        }
       </motion.div>
     </>
   );

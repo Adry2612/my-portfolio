@@ -46,9 +46,13 @@ export default function ProyectFilter({
   });
 
   useEffect(() => {
-    const filteredResults = proyects.filter(
-      (proyect: ProyectType) => proyect.type === active,
-    );
+    const toTime = (date?: string) => {
+      const [day, month, year] = String(date || '').split('/').map(Number);
+      return year ? new Date(year, (month || 1) - 1, day || 1).getTime() : 0;
+    };
+    const filteredResults = proyects
+      .filter((proyect: ProyectType) => proyect.type === active)
+      .sort((a, b) => toTime(b.date) - toTime(a.date));
 
     setFilteredProyects(filteredResults);
     setIsLoading(false);
