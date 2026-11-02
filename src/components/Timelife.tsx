@@ -1,7 +1,6 @@
 import React from 'react';
 import CaseIcon from './icons/CaseIcon';
 import CalendarIcon from './icons/CalendarIcon';
-import ProyectsIcon from './icons/ProyectsIcon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faListCheck } from '@fortawesome/free-solid-svg-icons';
 

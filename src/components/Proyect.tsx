@@ -12,10 +12,15 @@ import {
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import FadeInComponent from './animation/FadeInComponent';
+import { extractDominantColor } from '@/lib/dominantColor';
+
+const toExternalUrl = (url: string) =>
+  /^https?:\/\//i.test(url) ? url : `https://${url}`;
 
 export default function Proyect({ proyect }: { proyect: ProyectType }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [slide, setSlide] = useState<number>(0);
+  const [imageColors, setImageColors] = useState<Record<string, string>>({});
   const [open, setOpen] = useState<boolean>(false);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -36,35 +41,70 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
 
   const toggleOpen = () => setOpen((prev) => !prev);
 
-  const startAutoplay = () => {
-    if (images.length <= 1) return;
-    setIsHovering(true);
-    if (autoplayRef.current) return;
+  const handleImageLoad = (
+    event: React.SyntheticEvent<HTMLImageElement>,
+    image: string,
+    index: number,
+  ) => {
+    if (index === 0) setIsLoading(false);
+
+    const color = extractDominantColor(event.currentTarget);
+    if (!color) return;
+
+    setImageColors((prev) =>
+      prev[image] === color ? prev : { ...prev, [image]: color },
+    );
+  };
+
+  const clearAutoplay = () => {
+    if (autoplayRef.current) {
+      clearInterval(autoplayRef.current);
+      autoplayRef.current = null;
+    }
+  };
+
+  const startAutoplayTimer = () => {
+    clearAutoplay();
     autoplayRef.current = setInterval(() => {
       setSlide((prev) => (prev + 1) % images.length);
     }, AUTOPLAY_MS);
   };
 
+  const startAutoplay = () => {
+    if (images.length <= 1) return;
+    setIsHovering(true);
+    if (autoplayRef.current) return;
+    startAutoplayTimer();
+  };
+
   const stopAutoplay = () => {
     setIsHovering(false);
-    if (autoplayRef.current) {
-      clearInterval(autoplayRef.current);
-      autoplayRef.current = null;
-    }
+    clearAutoplay();
     setSlide(0);
   };
 
-  useEffect(() => () => stopAutoplay(), []);
+  useEffect(() => {
+    return () => {
+      if (autoplayRef.current) {
+        clearInterval(autoplayRef.current);
+        autoplayRef.current = null;
+      }
+    };
+  }, []);
 
   const goToSlide = (event: React.MouseEvent, index: number) => {
     event.stopPropagation();
     setSlide(index);
+    if (autoplayRef.current) startAutoplayTimer();
   };
 
   const changeSlide = (event: React.MouseEvent, direction: 1 | -1) => {
     event.stopPropagation();
     setSlide((prev) => (prev + direction + images.length) % images.length);
+    if (autoplayRef.current) startAutoplayTimer();
   };
+
+  const activeColor = imageColors[images[slide]];
 
   return (
     <FadeInComponent>
@@ -75,6 +115,7 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
       >
         <div
           className='project-image-wrap'
+          style={activeColor ? { backgroundColor: activeColor } : undefined}
           onClick={toggleOpen}
           onMouseEnter={startAutoplay}
           onMouseLeave={stopAutoplay}
@@ -90,7 +131,7 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
                 fill
                 sizes='(max-width: 768px) 100vw, 50vw'
                 alt=''
-                onLoadingComplete={() => index === 0 && setIsLoading(false)}
+                onLoad={(event) => handleImageLoad(event, image, index)}
                 style={{
                   opacity:
                     isLoading ? 0
@@ -151,13 +192,16 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
           <div className='project-info'>
             <div className='project-info-inner'>
               <h1> {proyect.name} </h1>
+              {proyect.description && (
+                <p className='project-description'>{proyect.description}</p>
+              )}
               {activities.length > 0 && (
                 <p className='project-activities'>{activities.join(', ')}</p>
               )}
               <div className='project-links'>
                 {proyect.deploy_url && (
                   <a
-                    href={proyect.deploy_url}
+                    href={toExternalUrl(proyect.deploy_url)}
                     target='_blank'
                     rel='noreferrer'
                     className='project-link'
@@ -167,7 +211,7 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
                 )}
                 {proyect.repo_url && (
                   <a
-                    href={proyect.repo_url}
+                    href={toExternalUrl(proyect.repo_url)}
                     target='_blank'
                     rel='noreferrer'
                     className='project-link'

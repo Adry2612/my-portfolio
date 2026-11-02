@@ -29,10 +29,8 @@ const categories = [
 
 export default function ProyectFilter({
   proyects,
-  main,
 }: {
   proyects: ProyectType[];
-  main?: boolean;
 }) {
   const [active, setActive] = useState<string>('web');
 
@@ -93,21 +91,33 @@ export default function ProyectFilter({
       <div className='projects-grid'>
         {isLoading ?
           <ProyectSkeleton />
-        : paginatedProyects.map((proyect: ProyectType, index) => (
-            <motion.div
-              key={proyect._id}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.7,
-                ease: 'easeInOut',
-                delay: 0.3 * index,
-              }}
-              threshold={0.5}
-            >
-              <Proyect proyect={proyect} />
-            </motion.div>
-          ))
+        : (
+          <>
+            {paginatedProyects.map((proyect: ProyectType, index) => (
+              <motion.div
+                key={proyect._id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                  duration: 0.5,
+                  ease: 'easeInOut',
+                  delay: 0.12 * index,
+                }}
+              >
+                <Proyect proyect={proyect} />
+              </motion.div>
+            ))}
+            {Array.from({
+              length: Math.max(0, PAGE_SIZE - paginatedProyects.length),
+            }).map((_, index) => (
+              <div
+                key={`project-placeholder-${index}`}
+                className='project-card project-card-placeholder'
+                aria-hidden='true'
+              />
+            ))}
+          </>
+        )
         }
       </div>
 

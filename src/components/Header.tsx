@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useScroll } from 'framer-motion';
 import { useMotionValueEvent } from 'framer-motion';
 import AnimatedNavMenu from './animation/AnimatedNavMenu';
+import ArrowUpRightIcon from './icons/ArrowUpRightIcon';
 import { AnimatePresence } from 'framer-motion';
 import Logo from '/public/logo.png';
 
@@ -16,7 +17,11 @@ export default function Header() {
 
   useMotionValueEvent(scrollY, 'change', (latest: number) => {
     const previous = scrollY.getPrevious();
-    latest > previous && latest > 120 ? setHidden(true) : setHidden(false);
+    if (latest > previous && latest > 120) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
   });
 
   useEffect(() => {
@@ -110,7 +115,7 @@ export default function Header() {
             className='nav-link nav-contact'
           >
             {' '}
-            Hablemos ↗
+            Hablemos <ArrowUpRightIcon />
           </Link>
         </motion.div>
       </AnimatePresence>

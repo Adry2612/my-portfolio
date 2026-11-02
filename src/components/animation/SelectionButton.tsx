@@ -1,18 +1,24 @@
 "use client"
 
-import { useRef } from "react";
+import React, { useRef, type ReactElement } from "react";
 
 interface CategoryType {
   category: string;
   name: string,
-  icon: JSX.Element;
+  icon: ReactElement;
+}
+
+interface SlidePosition {
+  width: number;
+  left: number;
+  opacity: number;
 }
 
 interface SelectionButtonProps {
   category: CategoryType;
   active: string;
-  setActive: (name: string) => void;
-  setSlidePosition: (slidePosition: { width: number, left: number, opacity: number }) => void;
+  setActive: React.Dispatch<React.SetStateAction<string>>;
+  setSlidePosition: React.Dispatch<React.SetStateAction<SlidePosition>>;
 }
 
 const SelectionButton: React.FC<SelectionButtonProps> = ({ category, active, setActive, setSlidePosition }) => {

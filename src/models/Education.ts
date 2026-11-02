@@ -1,7 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import mongoose from 'mongoose';
 
-var educationSchema = Schema({
+const Schema = mongoose.Schema;
+
+const educationSchema = new Schema({
   name: String,
   description: String,
   startDate: String,

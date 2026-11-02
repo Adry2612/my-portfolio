@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const proyectSchema = new Schema({
   name: String,
+  description: String,
   img: String,
   images: [String],
   deploy_url: String,

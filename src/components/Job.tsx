@@ -19,7 +19,7 @@ export default function Job({ job, index }: { job: JobType; index: number }) {
       <Image
         src={`/job-icons/${job.icon}`}
         alt={job.name}
-        onLoadingComplete={() => setIsLoading(false)}
+        onLoad={() => setIsLoading(false)}
         style={{
           objectFit: 'contain',
           opacity: isLoading ? 0 : 1,

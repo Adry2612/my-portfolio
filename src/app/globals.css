@@ -147,9 +147,10 @@ a {
 	transform: translateY(-2px);
 }
 
-.primary-action span {
-	font-size: 20px;
-	line-height: 0;
+.primary-action svg {
+	width: 18px;
+	height: 18px;
+	flex-shrink: 0;
 }
 
 .secondary-action {
@@ -233,9 +234,16 @@ a {
 }
 
 .ticker b {
+	display: flex;
+	align-items: center;
 	color: var(--acid);
 	font-size: 18px;
 	font-weight: 400;
+}
+
+.ticker b svg {
+	width: 18px;
+	height: 18px;
 }
 
 .section-block {
@@ -356,7 +364,16 @@ a {
 }
 
 .nav-contact {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
 	color: var(--ink);
+}
+
+.nav-contact svg {
+	width: 12px;
+	height: 12px;
+	flex-shrink: 0;
 }
 
 .job-row {
@@ -589,12 +606,21 @@ a {
 	box-shadow: 0 0 0 1px var(--line);
 }
 
+.project-card-placeholder {
+	aspect-ratio: 4 / 3;
+	background: transparent;
+	box-shadow: none;
+	pointer-events: none;
+	visibility: hidden;
+}
+
 .project-image-wrap {
 	position: relative;
 	aspect-ratio: 4 / 3;
-	background: #fff;
+	background: #151817;
 	overflow: hidden;
 	cursor: pointer;
+	transition: background-color .4s ease;
 }
 
 .project-badge {
@@ -616,9 +642,17 @@ a {
 	opacity: .8;
 }
 
+.project-description {
+	max-width: 380px;
+	margin: 0 0 14px;
+	font-size: 14px;
+	line-height: 1.5;
+	opacity: .9;
+}
+
 .project-image {
 	z-index: 1;
-	object-fit: cover;
+	object-fit: contain;
 	transition: filter .4s ease, opacity .4s ease;
 }
 
@@ -777,7 +811,7 @@ a {
 	justify-content: center;
 	gap: 6px;
 	max-width: 320px;
-	margin: 14px 0 0;
+	margin: 14px auto 0;
 	padding: 0;
 	list-style: none;
 }

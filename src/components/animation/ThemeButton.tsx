@@ -37,8 +37,11 @@ export default function ThemeButton() {
           />
           {/* sliding cutout turns the disc into a crescent, independent of background color */}
           <motion.circle
+            cx='26'
+            cy='-6'
             r='4.2'
             fill='#000'
+            initial={{ cx: 26, cy: -6 }}
             animate={{ cx: darkTheme ? 8 : 26, cy: darkTheme ? 7.5 : -6 }}
             transition={{ duration: 0.45, ease: 'easeInOut' }}
           />
