@@ -3,18 +3,13 @@
 import Image from 'next/image';
 import { JobType } from './_types';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 
 export default function Job({ job, index }: { job: JobType; index: number }) {
   const [isLoading, setIsLoading] = useState(true);
   return (
-    <motion.div
-      key={job._id}
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: 'easeInOut', delay: 0.3 * index }}
-      threshold={0.5}
-      className='job-row'
+    <div
+      className='job-row job-entrance'
+      style={{ animationDelay: `${0.12 * index}s` }}
     >
       <Image
         src={`/job-icons/${job.icon}`}
@@ -55,6 +50,6 @@ export default function Job({ job, index }: { job: JobType; index: number }) {
           </ul>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

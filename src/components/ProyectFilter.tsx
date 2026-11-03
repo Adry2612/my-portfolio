@@ -1,12 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 
 import ComputerIcon from './icons/ComputerIcon';
+import MobileIcon from './icons/MobileIcon';
 import { ProyectType } from './_types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMobileAlt } from '@fortawesome/free-solid-svg-icons';
 
 import Proyect from './Proyect';
 import ProyectSkeleton from './skeleton/ProyectSkeleton';
@@ -23,7 +21,7 @@ const categories = [
   {
     name: 'Multiplataforma',
     category: 'mobile',
-    icon: <FontAwesomeIcon icon={faMobileAlt} />,
+    icon: <MobileIcon />,
   },
 ];
 
@@ -66,16 +64,13 @@ export default function ProyectFilter({
   return (
     <>
       <div className='filters-row'>
-        <motion.div
-          layout
+        <div
           className='filter-slider'
-          animate={{
-            x: slidePosition.left,
+          style={{
+            transform: `translateX(${slidePosition.left}px)`,
             width: slidePosition.width,
             opacity: slidePosition.opacity,
           }}
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          style={{ width: '50%' }}
         />
         {categories.map((category) => (
           <SelectionButton
@@ -94,18 +89,13 @@ export default function ProyectFilter({
         : (
           <>
             {paginatedProyects.map((proyect: ProyectType, index) => (
-              <motion.div
+              <div
                 key={proyect._id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{
-                  duration: 0.5,
-                  ease: 'easeInOut',
-                  delay: 0.12 * index,
-                }}
+                className='project-card-entrance'
+                style={{ animationDelay: `${0.08 * index}s` }}
               >
                 <Proyect proyect={proyect} />
-              </motion.div>
+              </div>
             ))}
             {Array.from({
               length: Math.max(0, PAGE_SIZE - paginatedProyects.length),

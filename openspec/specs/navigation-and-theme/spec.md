@@ -14,10 +14,12 @@ El encabezado SHALL ocultarse cuando el visitante se desplace hacia abajo más d
 
 El enlace de contacto SHALL mostrar un icono SVG de flecha diagonal que herede el color del texto, sin usar glifos emoji.
 
+Los enlaces SHALL ser anclas con `href` a la sección correspondiente y el desplazamiento suave SHALL resolverse con CSS.
+
 #### Scenario: Ocultar el encabezado al bajar
 
 - **WHEN** el visitante se desplaza hacia abajo y supera los 120 píxeles de scroll
-- **THEN** el encabezado se desplaza fuera de la vista con una animación
+- **THEN** el encabezado se desplaza fuera de la vista con una animación CSS
 
 #### Scenario: Mostrar el encabezado al subir
 
@@ -27,7 +29,12 @@ El enlace de contacto SHALL mostrar un icono SVG de flecha diagonal que herede e
 #### Scenario: Navegación suave
 
 - **WHEN** el visitante pulsa un enlace del encabezado
-- **THEN** el sistema realiza un desplazamiento suave de 800 milisegundos hasta la sección destino
+- **THEN** el navegador desplaza la vista suavemente hasta la sección usando el `href` del ancla
+
+#### Scenario: Enlace rastreable
+
+- **WHEN** un rastreador o una tecnología de asistencia inspecciona el menú
+- **THEN** cada enlace expone un `href` válido hacia su sección
 
 #### Scenario: Icono de contacto consistente entre plataformas
 

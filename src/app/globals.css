@@ -24,6 +24,10 @@ html {
 	scroll-behavior: smooth;
 }
 
+section[id] {
+	scroll-margin-top: 90px;
+}
+
 body {
 	margin: 0;
 	background: var(--paper);
@@ -321,7 +325,11 @@ a {
 	border-bottom: 1px solid var(--line);
 	background: color-mix(in srgb, var(--paper) 88%, transparent);
 	backdrop-filter: blur(14px);
-	transition: background .3s ease, border-color .3s ease;
+	transition: background .3s ease, border-color .3s ease, transform .3s ease;
+}
+
+.portfolio-nav-hidden {
+	transform: translateY(-150%);
 }
 
 .nav-brand {
@@ -524,6 +532,7 @@ a {
 	z-index: 0;
 	height: 100%;
 	background: var(--acid);
+	transition: transform .3s ease, width .3s ease, opacity .3s ease;
 }
 
 .filter-button {
@@ -604,6 +613,11 @@ a {
 	overflow: hidden;
 	background: var(--card-bg);
 	box-shadow: 0 0 0 1px var(--line);
+	transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.project-card:hover {
+	transform: translateY(-8px);
 }
 
 .project-card-placeholder {
@@ -905,6 +919,63 @@ a {
 	transform: translateY(-2px);
 }
 
+.theme-toggle svg {
+	transition: transform .4s ease;
+}
+
+.theme-toggle-dark svg {
+	transform: rotate(-110deg);
+}
+
+.theme-toggle-rays {
+	transition: opacity .3s ease;
+}
+
+.theme-toggle-dark .theme-toggle-rays {
+	opacity: 0;
+}
+
+.fade-in {
+	opacity: 0;
+	transition: opacity .6s ease;
+}
+
+.fade-in-visible {
+	opacity: 1;
+}
+
+@keyframes fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+.project-card-entrance,
+.job-entrance,
+.technology-item-entrance {
+	animation: fade-up .5s ease both;
+}
+
+.technology-grid-entrance {
+	animation: fade-in .35s ease both;
+}
+
 .menu-icon {
 	display: flex;
 	flex-direction: column;
@@ -1110,5 +1181,19 @@ html.dark .hero-image {
 	.portfolio-footer {
 		width: calc(100% - 32px);
 		gap: 18px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .01ms !important;
 	}
 }

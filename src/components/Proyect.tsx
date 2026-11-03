@@ -2,15 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import { ProyectType } from './_types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import {
-  faArrowPointer,
-  faChevronLeft,
-  faChevronRight,
-} from '@fortawesome/free-solid-svg-icons';
+import ArrowUpRightIcon from './icons/ArrowUpRightIcon';
+import ChevronLeftIcon from './icons/ChevronLeftIcon';
+import ChevronRightIcon from './icons/ChevronRightIcon';
+import GithubIcon from './icons/GithubIcon';
 import FadeInComponent from './animation/FadeInComponent';
 import { extractDominantColor } from '@/lib/dominantColor';
 
@@ -108,11 +104,7 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
 
   return (
     <FadeInComponent>
-      <motion.div
-        className='project-card'
-        whileHover={{ y: -8 }}
-        transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-      >
+      <div className='project-card'>
         <div
           className='project-image-wrap'
           style={activeColor ? { backgroundColor: activeColor } : undefined}
@@ -150,7 +142,7 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
                 className='project-carousel-arrow project-carousel-prev'
                 aria-label='Imagen anterior'
               >
-                <FontAwesomeIcon icon={faChevronLeft} />
+                <ChevronLeftIcon />
               </button>
               <button
                 type='button'
@@ -158,7 +150,7 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
                 className='project-carousel-arrow project-carousel-next'
                 aria-label='Imagen siguiente'
               >
-                <FontAwesomeIcon icon={faChevronRight} />
+                <ChevronRightIcon />
               </button>
               <div className='project-carousel-dots'>
                 {images.map((image, index) => (
@@ -206,7 +198,7 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
                     rel='noreferrer'
                     className='project-link'
                   >
-                    <FontAwesomeIcon icon={faArrowPointer} /> Ver despliegue
+                    <ArrowUpRightIcon /> Ver despliegue
                   </a>
                 )}
                 {proyect.repo_url && (
@@ -216,7 +208,7 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
                     rel='noreferrer'
                     className='project-link'
                   >
-                    <FontAwesomeIcon icon={faGithub} /> Ver repositorio
+                    <GithubIcon /> Ver repositorio
                   </a>
                 )}
               </div>
@@ -231,7 +223,7 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </FadeInComponent>
   );
 }

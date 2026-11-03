@@ -3,7 +3,7 @@ import local from "next/font/local";
 export const GeneralSansLight = local({
   src: [
     {
-      path: 'fonts/GeneralSans-Light.otf',
+      path: 'fonts/GeneralSans-Light.woff2',
       weight: '300',
       style: 'normal',
     },
@@ -14,7 +14,7 @@ export const GeneralSansLight = local({
 export const GeneralSansRegular = local({
   src: [
     {
-      path: 'fonts/GeneralSans-Regular.otf',
+      path: 'fonts/GeneralSans-Regular.woff2',
       weight: 'normal',
       style: 'normal',
     },
@@ -25,7 +25,7 @@ export const GeneralSansRegular = local({
 export const GeneralSansBold = local({
   src: [
     {
-      path: 'fonts/GeneralSans-Semibold.otf',
+      path: 'fonts/GeneralSans-Semibold.woff2',
       weight: '700',
       style: 'normal',
     },
@@ -36,7 +36,7 @@ export const GeneralSansBold = local({
 export const SatoshiLight = local({
   src: [
     {
-      path: 'fonts/Satoshi-Light.otf',
+      path: 'fonts/Satoshi-Light.woff2',
       weight: 'normal',
       style: 'normal',
     },
@@ -47,7 +47,7 @@ export const SatoshiLight = local({
 export const SatoshiRegular = local({
   src: [
     {
-      path: 'fonts/Satoshi-Regular.otf',
+      path: 'fonts/Satoshi-Regular.woff2',
       weight: 'normal',
       style: 'normal',
     },
@@ -58,7 +58,7 @@ export const SatoshiRegular = local({
 export const SatoshiBold = local({
   src: [
     {
-      path: 'fonts/Satoshi-Bold.otf',
+      path: 'fonts/Satoshi-Bold.woff2',
       weight: 'normal',
       style: 'normal',
     },

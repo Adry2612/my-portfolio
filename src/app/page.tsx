@@ -14,7 +14,6 @@ import Footer from '@/components/Footer';
 
 import { SatoshiBold } from './fonts';
 import { JobType } from '@/components/_types';
-import FadeInSection from '@/components/animation/FadeInComponent';
 import { headers } from 'next/headers';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -81,9 +80,8 @@ export default async function Home() {
           className='hero-section'
           id='sobremi'
         >
-          <FadeInSection>
-            <div className='hero-grid'>
-              <div className='hero-copy'>
+          <div className='hero-grid'>
+            <div className='hero-copy'>
                 <p className='eyebrow'>
                   <span className='eyebrow-dot' /> Disponibilidad completa
                 </p>
@@ -135,7 +133,6 @@ export default async function Home() {
                 </div>
               </div>
             </div>
-          </FadeInSection>
         </section>
 
         <div

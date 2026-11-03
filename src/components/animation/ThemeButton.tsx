@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 export default function ThemeButton() {
@@ -13,56 +12,31 @@ export default function ThemeButton() {
   return (
     <button
       onClick={() => setDarkTheme((isDark) => !isDark)}
-      className='theme-toggle'
+      className={`theme-toggle ${darkTheme ? 'theme-toggle-dark' : ''}`}
       type='button'
       title={darkTheme ? 'Activar modo claro' : 'Activar modo oscuro'}
       aria-label={darkTheme ? 'Activar modo claro' : 'Activar modo oscuro'}
       aria-pressed={darkTheme}
     >
-      <motion.svg
+      <svg
         viewBox='0 0 24 24'
         width='20'
         height='20'
         fill='none'
-        animate={{ rotate: darkTheme ? -110 : 0 }}
-        transition={{ type: 'spring', stiffness: 140, damping: 16 }}
+        aria-hidden='true'
+        focusable='false'
       >
-        <mask id='theme-toggle-mask'>
-          <rect
-            x='0'
-            y='0'
-            width='24'
-            height='24'
-            fill='#fff'
-          />
-          {/* sliding cutout turns the disc into a crescent, independent of background color */}
-          <motion.circle
-            cx='26'
-            cy='-6'
-            r='4.2'
-            fill='#000'
-            initial={{ cx: 26, cy: -6 }}
-            animate={{ cx: darkTheme ? 8 : 26, cy: darkTheme ? 7.5 : -6 }}
-            transition={{ duration: 0.45, ease: 'easeInOut' }}
-          />
-        </mask>
-        <motion.circle
+        <circle
           cx='12'
           cy='12'
           r='5'
           fill='currentColor'
-          mask='url(#theme-toggle-mask)'
-          animate={{ scale: darkTheme ? 0.92 : 1 }}
-          style={{ transformOrigin: '12px 12px' }}
-          transition={{ duration: 0.4, ease: 'easeInOut' }}
         />
-        <motion.g
+        <g
+          className='theme-toggle-rays'
           stroke='currentColor'
           strokeWidth='1.6'
           strokeLinecap='round'
-          animate={{ opacity: darkTheme ? 0 : 1, scale: darkTheme ? 0.5 : 1 }}
-          style={{ transformOrigin: '12px 12px' }}
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
         >
           <line
             x1='12'
@@ -112,8 +86,8 @@ export default function ThemeButton() {
             x2='19.8'
             y2='4.2'
           />
-        </motion.g>
-      </motion.svg>
+        </g>
+      </svg>
     </button>
   );
 }
