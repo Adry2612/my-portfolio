@@ -1,18 +1,16 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 
 import BackIcon from './icons/BackIcon';
 import ComputerIcon from './icons/ComputerIcon';
 import LighningIcon from './icons/LighningIcon';
+import MobileIcon from './icons/MobileIcon';
 import SelectionButton from './animation/SelectionButton';
 import { TechnologyType } from './_types';
 
 import Image from 'next/image';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMobileAlt } from '@fortawesome/free-solid-svg-icons';
 import { SatoshiRegular } from '@/app/fonts';
 
 export default function TechnologiesFilter({
@@ -51,7 +49,7 @@ export default function TechnologiesFilter({
     {
       name: 'Otros',
       category: 'others',
-      icon: <FontAwesomeIcon icon={faMobileAlt} />,
+      icon: <MobileIcon />,
     },
   ];
 
@@ -76,25 +74,19 @@ export default function TechnologiesFilter({
           />
         ))}
 
-        <motion.div
-          layout
+        <div
           className='filter-slider'
-          animate={{
-            x: slidePosition.left,
+          style={{
+            transform: `translateX(${slidePosition.left}px)`,
             width: slidePosition.width,
             opacity: slidePosition.opacity,
           }}
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          style={{ width: '50%' }}
         />
       </div>
 
-      <motion.div
-        className='technology-grid'
+      <div
+        className='technology-grid technology-grid-entrance'
         key={active}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
       >
         {isLoading ?
           Array.from({ length: 3 }).map((_, i) => (
@@ -107,16 +99,10 @@ export default function TechnologiesFilter({
             </div>
           ))
         : filteredTechnologies.map((tech: TechnologyType, index) => (
-            <motion.div
+            <div
               key={tech.id || tech.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.3,
-                ease: 'easeInOut',
-                delay: 0.1 * index,
-              }}
-              className={`technology-item ${SatoshiRegular.className}`}
+              className={`technology-item technology-item-entrance ${SatoshiRegular.className}`}
+              style={{ animationDelay: `${0.05 * index}s` }}
             >
               <p>{tech.name}</p>
               <Image
@@ -126,10 +112,10 @@ export default function TechnologiesFilter({
                 className='technology-icon'
                 alt={tech.name}
               />
-            </motion.div>
+            </div>
           ))
         }
-      </motion.div>
+      </div>
     </>
   );
 }

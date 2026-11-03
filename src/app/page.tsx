@@ -2,6 +2,8 @@ import Header from '@/components/Header';
 import Image from 'next/image';
 // import AdrianImage from '../../public/photo.jpg';
 import DownloadIcon from '@/components/icons/DownloadIcon';
+import ArrowUpRightIcon from '@/components/icons/ArrowUpRightIcon';
+import AsteriskIcon from '@/components/icons/AsteriskIcon';
 import Timelife from '@/components/Timelife';
 import Job from '@/components/Job';
 import ThemeButton from '@/components/animation/ThemeButton';
@@ -10,9 +12,8 @@ import ProyectFilter from '@/components/ProyectFilter';
 import ProyectSkeleton from '@/components/skeleton/ProyectSkeleton';
 import Footer from '@/components/Footer';
 
-import { GeneralSansLight, SatoshiBold } from './fonts';
+import { SatoshiBold } from './fonts';
 import { JobType } from '@/components/_types';
-import FadeInSection from '@/components/animation/FadeInComponent';
 import { headers } from 'next/headers';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -79,9 +80,8 @@ export default async function Home() {
           className='hero-section'
           id='sobremi'
         >
-          <FadeInSection>
-            <div className='hero-grid'>
-              <div className='hero-copy'>
+          <div className='hero-grid'>
+            <div className='hero-copy'>
                 <p className='eyebrow'>
                   <span className='eyebrow-dot' /> Disponibilidad completa
                 </p>
@@ -98,7 +98,7 @@ export default async function Home() {
                     className='primary-action'
                     href='#proyectos'
                   >
-                    Ver proyectos <span>↗</span>
+                    Ver proyectos <ArrowUpRightIcon />
                   </a>
                   <a
                     className='secondary-action'
@@ -133,7 +133,6 @@ export default async function Home() {
                 </div>
               </div>
             </div>
-          </FadeInSection>
         </section>
 
         <div
@@ -141,11 +140,17 @@ export default async function Home() {
           aria-label='Especialidades'
         >
           <span>FRONTEND</span>
-          <b>✳</b>
+          <b>
+            <AsteriskIcon />
+          </b>
           <span>BACKEND</span>
-          <b>✳</b>
+          <b>
+            <AsteriskIcon />
+          </b>
           <span>PRODUCTO</span>
-          <b>✳</b>
+          <b>
+            <AsteriskIcon />
+          </b>
           <span>APRENDER HACIENDO</span>
         </div>
 
@@ -232,7 +237,7 @@ export default async function Home() {
             className='primary-action contact-action'
             href='mailto:adrianvidal2612@gmail.com'
           >
-            Hablemos <span>↗</span>
+            Hablemos <ArrowUpRightIcon />
           </a>
         </section>
       </div>

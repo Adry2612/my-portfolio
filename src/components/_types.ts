@@ -8,6 +8,7 @@ export interface TechnologyType {
 export interface ProyectType {
   _id: string;
   name: string;
+  description?: string;
   img: string;
   images?: string[];
   deploy_url: string;

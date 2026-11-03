@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 interface AnimatedNavMenuProps {
   isOpen: boolean;
-  setIsOpen: (_: boolean) => void;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AnimatedNavMenu: React.FC<AnimatedNavMenuProps> = ({

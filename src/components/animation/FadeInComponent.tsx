@@ -1,25 +1,39 @@
-// src/components/FadeInSection.tsx
+'use client';
 
-"use client"; // Asegúrate de poner esto para que funcione en Next.js con React 18
+import { useEffect, useRef, useState } from 'react';
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion"; // Para detectar cuando el elemento entra en la vista
-import { useRef } from "react";
+export default function FadeInComponent({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
-const FadeInSection = ({ children }: { children: React.ReactNode }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { threshold: 1, triggerOnce: true });
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      initial={{ opacity: 0 }}
-      animate={isInView ? { opacity: 1 } : {}}
-      transition={{ duration: 0.9, ease: "easeInOut" }}
+      className={`fade-in ${visible ? 'fade-in-visible' : ''}`}
     >
       {children}
-    </motion.div>
+    </div>
   );
-};
-
-export default FadeInSection;
+}
