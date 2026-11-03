@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import { ProyectType } from './_types';
 import ArrowUpRightIcon from './icons/ArrowUpRightIcon';
 import ChevronLeftIcon from './icons/ChevronLeftIcon';
@@ -12,6 +11,25 @@ import { extractDominantColor } from '@/lib/dominantColor';
 
 const toExternalUrl = (url: string) =>
   /^https?:\/\//i.test(url) ? url : `https://${url}`;
+
+// Variantes generadas en build con scripts/generate-image-variants.mjs.
+// La tarjeta mide ~488 px en escritorio y ~80vw en móvil.
+const PROJECT_IMAGE_WIDTHS = [400, 640, 960];
+
+const isWebp = (file: string) => /\.webp$/i.test(file);
+
+const projectImageSrc = (file: string) =>
+  `/proyect-images/${
+    isWebp(file) ? file.replace(/\.webp$/i, '-960.webp') : file
+  }`;
+
+const projectImageSrcSet = (file: string) =>
+  isWebp(file) ?
+    PROJECT_IMAGE_WIDTHS.map(
+      (width) =>
+        `/proyect-images/${file.replace(/\.webp$/i, `-${width}.webp`)} ${width}w`,
+    ).join(', ')
+  : undefined;
 
 export default function Proyect({ proyect }: { proyect: ProyectType }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -117,12 +135,15 @@ export default function Proyect({ proyect }: { proyect: ProyectType }) {
           )}
           <div className='project-carousel'>
             {images.map((image, index) => (
-              <Image
+              // eslint-disable-next-line @next/next/no-img-element -- variantes pregeneradas en build con scripts/generate-image-variants.mjs
+              <img
                 key={image}
-                src={`/proyect-images/${image}`}
-                fill
-                sizes='(max-width: 768px) 100vw, 50vw'
+                src={projectImageSrc(image)}
+                srcSet={projectImageSrcSet(image)}
+                sizes='(max-width: 768px) 80vw, (max-width: 1300px) 40vw, 488px'
                 alt=''
+                loading='lazy'
+                decoding='async'
                 onLoad={(event) => handleImageLoad(event, image, index)}
                 style={{
                   opacity:

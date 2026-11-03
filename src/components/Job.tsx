@@ -1,8 +1,23 @@
 'use client';
 
-import Image from 'next/image';
 import { JobType } from './_types';
 import { useState } from 'react';
+
+// Variantes generadas con scripts/generate-image-variants.mjs.
+const ICON_WIDTHS = [150, 300];
+
+const iconSrc = (icon: string) =>
+  /\.webp$/i.test(icon) ?
+    `/job-icons/${icon.replace(/\.webp$/i, '-150.webp')}`
+  : `/job-icons/${icon}`;
+
+const iconSrcSet = (icon: string) =>
+  /\.webp$/i.test(icon) ?
+    ICON_WIDTHS.map(
+      (width) =>
+        `/job-icons/${icon.replace(/\.webp$/i, `-${width}.webp`)} ${width}w`,
+    ).join(', ')
+  : undefined;
 
 export default function Job({ job, index }: { job: JobType; index: number }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,17 +26,22 @@ export default function Job({ job, index }: { job: JobType; index: number }) {
       className='job-row job-entrance'
       style={{ animationDelay: `${0.12 * index}s` }}
     >
-      <Image
-        src={`/job-icons/${job.icon}`}
+      {/* eslint-disable-next-line @next/next/no-img-element -- variantes pregeneradas en build con scripts/generate-image-variants.mjs */}
+      <img
+        src={iconSrc(job.icon)}
+        srcSet={iconSrcSet(job.icon)}
+        sizes='(max-width: 768px) 110px, 150px'
         alt={job.name}
+        width={150}
+        height={150}
+        loading='lazy'
+        decoding='async'
         onLoad={() => setIsLoading(false)}
         style={{
           objectFit: 'contain',
           opacity: isLoading ? 0 : 1,
           transition: 'opacity 0.5s ease-in-out',
         }}
-        width={150}
-        height={150}
         className='job-icon'
       />
       <div className='job-content'>
