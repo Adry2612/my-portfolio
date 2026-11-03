@@ -83,15 +83,17 @@ export default async function Home() {
           <div className='hero-grid'>
             <div className='hero-copy'>
                 <p className='eyebrow'>
-                  <span className='eyebrow-dot' /> Disponibilidad completa
+                  <span className='eyebrow-dot' /> Incorporación inmediata
                 </p>
                 <h1 className={`${SatoshiBold.className} hero-title`}>
                   Diseño y código con <em>criterio.</em>
                 </h1>
                 <p className='hero-intro'>
-                  Soy Adrián Vidal, desarrollador full stack con más de 5 años
-                  de experiencia. Transformo ideas y necesidades reales en
-                  productos digitales claros, rápidos y fáciles de mantener.
+                  Soy Adrián Vidal, desarrollador frontend con más de cinco años
+                  en producto. Construyo interfaces en React y TypeScript que se
+                  miden: sistemas de diseño accesibles, rendimiento con impacto
+                  en conversión y, cuando el producto lo pide, el backend en
+                  Node.js.
                 </p>
                 <div className='hero-actions'>
                   <a
@@ -109,7 +111,7 @@ export default async function Home() {
                   </a>
                 </div>
                 <p className='hero-note'>
-                  Full stack · Multiplataforma · Valencia / remoto
+                  Frontend · React y TypeScript · Valencia / remoto
                 </p>
               </div>
               <div className='hero-portrait-wrap'>
@@ -127,7 +129,7 @@ export default async function Home() {
                   />
                 </div>
                 <div className='portrait-caption'>
-                  <span>AV / 2025</span>
+                  <span>AV / 2026</span>
                   <span className='caption-line' />
                   <span>Construyendo en público</span>
                 </div>
@@ -173,7 +175,7 @@ export default async function Home() {
           <Timelife />
           {jobs.jobs ?
             <div className='jobs-list'>
-              {jobs.jobs.reverse().map((job: JobType, index: number) => (
+              {jobs.jobs.map((job: JobType, index: number) => (
                 <Job
                   key={job._id}
                   job={job}
@@ -235,7 +237,7 @@ export default async function Home() {
           </h2>
           <a
             className='primary-action contact-action'
-            href='mailto:adrianvidal2612@gmail.com'
+            href='mailto:adrianvidalopez12@gmail.com'
           >
             Hablemos <ArrowUpRightIcon />
           </a>

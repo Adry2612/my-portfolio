@@ -3,8 +3,9 @@ import './globals.css';
 import { GeneralSansRegular } from './fonts';
 
 export const metadata: Metadata = {
-  title: 'Portfolio de Adrián Vidal',
-  description: 'Esto es el portfolio de Adrián Vidal',
+  title: 'Adrián Vidal · Desarrollador frontend (React y TypeScript)',
+  description:
+    'Desarrollador frontend en Valencia, especializado en React, TypeScript y sistemas de diseño accesibles. Rendimiento web con impacto medido en conversión.',
 };
 
 export const viewport = {
